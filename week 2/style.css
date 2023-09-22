@@ -32,14 +32,13 @@ header {
 
 /* Navigation Styles */
 nav ul {
-    background-color: #ff0000;
     color: #fff;
     text-align: center;
     list-style-type: none;
     margin: 0;
-    padding: 20px;
-    background: linear-gradient(60deg, #cc8d06, rgb(200, 40, 40));
-    
+    padding: 10px;
+    background: linear-gradient(60deg, #000000, rgb(128 0 207));
+
 }
 
 nav li {
