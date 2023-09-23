@@ -37,7 +37,7 @@ nav ul {
     list-style-type: none;
     margin: 0;
     padding: 10px;
-    background: linear-gradient(60deg, #000000, rgb(128 0 207));
+    background: linear-gradient(60deg, #00b3ab, rgb(179 81 239));
 
 }
 
@@ -46,16 +46,26 @@ nav li {
 }
 
 nav a {
-    display: block;
-    color: #f1f1f1;
+    display: inline-grid;
+    color: color hwb(0 0% 100%);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    transition: background-color 0.3s;  /* Smooth transition for hover effect */
+    transition: background-color 0.8s;  /* Smooth transition for hover effect */
+    
 }
+nav a::after{
+    content: "";
+    position: absolute;
+    background-color: #ff3c78;
+    height: 15px;
+    width: 100%;
+    left: 0;
+    bottom: -15px;
 
+} 
 nav a:hover {
-    background-color: #505050;  /* Darker shade for hover */
+    background-color: hsl(0, 0%, 100%);  /* Darker shade for hover */
 }
 
 /* Banner Styles */
