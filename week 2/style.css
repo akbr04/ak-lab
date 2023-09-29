@@ -8,7 +8,7 @@ body {
 
 /* Header Styles */
 header {
-    background-color: #282689;
+    background-color: #000000;
     color: #fff;
     text-align: center;
     padding: 20px;
@@ -37,7 +37,7 @@ nav ul {
     list-style-type: none;
     margin: 0;
     padding: 10px;
-    background: linear-gradient(60deg, #00b3ab, rgb(179 81 239));
+    background: linear-gradient(60deg, #b30000, rgb(157, 0, 255));
 
 }
 
@@ -54,16 +54,7 @@ nav a {
     transition: background-color 0.8s;  /* Smooth transition for hover effect */
     
 }
-nav a::after{
-    content: "";
-    position: absolute;
-    background-color: #ff3c78;
-    height: 15px;
-    width: 100%;
-    left: 0;
-    bottom: -15px;
-
-} 
+ 
 nav a:hover {
     background-color: hsl(0, 0%, 100%);  /* Darker shade for hover */
 }
@@ -155,7 +146,7 @@ main h3 {
 .cta-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: #000000;
     color: #ffffff;
     text-decoration: none;
     border-radius: 5px;
@@ -165,7 +156,7 @@ main h3 {
 }
 
 .cta-button:hover {
-    background-color: #0056b3;
+    background-color: #000000;
 }
 
 /* Footer Styles */
