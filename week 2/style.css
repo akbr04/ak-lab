@@ -12,7 +12,10 @@ header {
     color: #000000;
     text-align: center;
     padding: 30px;
+    position: sticky;
+    top: 0px;
 }
+
 
 .headeraH1 {
     margin: 0;
