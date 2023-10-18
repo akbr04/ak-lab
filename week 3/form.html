@@ -9,14 +9,14 @@
 
     <div class="input-control">
         <label for="username">Username</label>
-        <input type="text" id="Username" name="Username">
-        <div class="error" id="Usernameerror"></div>
+        <input type="text" id="username" name="Username">
+        <div class="error" id="usernameError"></div>
     </div>
 
     <div class="input-control">
         <label for="email">Email</label>
-        <input type="email" id="Email" name="Email">
-        <div class="error" id="Emailerror"></div>
+        <input type="email" id="email" name="Email">
+        <div class="error" id="emailError"></div>
     </div>
 
     <div class="input-control">
@@ -27,84 +27,117 @@
 
     <div class="input-control">
         <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="Confirmpassword name="Confirmpassword">
-        <div class="error" id="ConfirmpasswordError"></div>
+        <input type="password" id="confirmPassword" name="Confirmpassword">
+        <div class="error" id="confirmPassword"></div>
     </div>
 
     <button type="button" id="submitBtn">Submit</button>
 </form>
 <script>
-   const form = document.getElementById("form");
+// Get references to form elements
+const form = document.getElementById("form");
+const usernameInput = document.getElementById("username");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const confirmPasswordInput = document.getElementById("confirmPassword");
 
-// Function to validate an input field and provide visual feedback
-function validateInput(input, error, regex) {
-    const value = input.value.trim();
-    if (value === "") {
-        error.textContent = `${input.name} is required`;
-        input.classList.add("error-border");
-        input.classList.remove("success-border");
-        return false;
-    } else if (regex && !regex.test(value)) {
-        error.textContent = `Invalid ${input.name}`;
-        input.classList.add("error-border");
-        input.classList.remove("success-border");
+// Get references to error message elements
+const usernameError = document.getElementById("usernameError");
+const emailError = document.getElementById("emailError");
+const passwordError = document.getElementById("passwordError");
+const confirmPasswordError = document.getElementById("confirmPasswordError");
+
+// Function to validate the username input
+function validateUsername() {
+    const usernameValue = usernameInput.value.trim();
+
+    if (usernameValue === "") {
+        showError(usernameInput, usernameError, "Username is required");
         return false;
     } else {
-        error.textContent = "";
-        input.classList.remove("error-border");
-        input.classList.add("success-border");
+        clearError(usernameInput, usernameError);
         return true;
     }
 }
 
-// Validation on input fields when they lose focus
-document.querySelectorAll(".input-control input").forEach(input => {
-    const error = input.nextElementSibling;
-    input.addEventListener("blur", () => {
-        let regex;
-        if (input.name === "email") {
-            regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        } else if (input.name === "password") {
-            regex = /.{8,}/;
-        }
-        validateInput(input, error, regex);
-    });
-});
+// Function to validate the email input
+function validateEmail() {
+    const emailValue = emailInput.value.trim();
+    const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-// Form submission
-document.getElementById("submitBtn").addEventListener("click", function () {
-    let valid = true;
-
-    document.querySelectorAll(".input-control input").forEach(input => {
-        const error = input.nextElementSibling;
-        let regex;
-        if (input.name === "email") {
-            regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        } else if (input.name === "password") {
-            regex = /.{8,}/;
-        }
-        if (!validateInput(input, error, regex)) {
-            valid = false;
-        }
-    });
-
-    const password = document.getElementById("password");
-    const confirmPassword = document.getElementById("confirmPassword");
-    const confirmPasswordError = document.getElementById("confirmPasswordError");
- 
-    if (password.value !== confirmPassword.value) {
-        valid = false;
-        confirmPasswordError.textContent = "Passwords do not match";
-        confirmPassword.classList.add("error-border");
-        confirmPassword.classList.remove("success-border");
+    if (emailValue === "") {
+        showError(emailInput, emailError, "Email is required");
+        return false;
+    } else if (!emailFormat.test(emailValue)) {
+        showError(emailInput, emailError, "Invalid email format");
+        return false;
     } else {
-        confirmPasswordError.textContent = "";
-        confirmPassword.classList.remove("error-border");
-        confirmPassword.classList.add("success-border");
+        clearError(emailInput, emailError);
+        return true;
     }
+}
 
-    if (valid) {
-        // Perform further actions when the form is valid
+// Function to validate the password input
+function validatePassword() {
+    const passwordValue = passwordInput.value;
+
+    if (passwordValue === "") {
+        showError(passwordInput, passwordError, "Password is required");
+        return false;
+    } else if (passwordValue.length < 8) {
+        showError(passwordInput, passwordError, "Password must be at least 8 characters long");
+        return false;
+    } else {
+        clearError(passwordInput, passwordError);
+        return true;
+    }
+}
+
+// Function to validate the confirm password input
+function validateConfirmPassword() {
+    const confirmPasswordValue = confirmPasswordInput.value;
+    const passwordValue = passwordInput.value;
+
+    if (confirmPasswordValue === "") {
+        showError(confirmPasswordInput, confirmPasswordError, "Confirm Password is required");
+        return false;
+    } else if (confirmPasswordValue !== passwordValue) {
+        showError(confirmPasswordInput, confirmPasswordError, "Passwords do not match");
+        return false;
+    } else {
+        clearError(confirmPasswordInput, confirmPasswordError);
+        return true;
+    }
+}
+
+// Function to show error message and apply error styling
+function showError(input, error, message) {
+    error.textContent = message;
+    input.classList.add("error-border");
+}
+
+// Function to clear error message and apply success styling
+function clearError(input, error) {
+    error.textContent = "";
+    input.classList.remove("error-border");
+    input.classList.add("success-border");
+}
+
+// Add real-time validation on blur events for input fields
+usernameInput.addEventListener("blur", validateUsername);
+emailInput.addEventListener("blur", validateEmail);
+passwordInput.addEventListener("blur", validatePassword);
+confirmPasswordInput.addEventListener("blur", validateConfirmPassword);
+
+// Add event listener for the form submission
+const submitButton = document.getElementById("submitBtn");
+submitButton.addEventListener("click", function () {
+    const isUsernameValid = validateUsername();
+    const isEmailValid = validateEmail();
+    const isPasswordValid = validatePassword();
+    const isConfirmPasswordValid = validateConfirmPassword();
+
+    if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid) {
         alert("Form submitted successfully!");
     }
 });
