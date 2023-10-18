@@ -105,30 +105,32 @@
       <p>&copy; 2024 Wanderlust Voyages | Travel Agency. All rights reserved.</p>
     </footer>
   </div>
-  <script>
+  
+<!--JAVASCRIPT-->
+<script>
 
-     // Step 1: Declare a variable for the starting point.
-     let currentImageIndex = 0;
+  // Step 1: Declare a variable for the starting point.
+  let currentImageIndex = 0;
 
 // Step 2: Declare an array to hold image paths.
 const images = [
-    'images/9.jpg',
-    'images/10.jpg',
-    'images/11.jpg',
-    'images/12.jpg',
-    'images/16.jpg',
-    'images/14.jpg',
-    'images/17.jpg',
+ 'images/9.jpg',
+ 'images/10.jpg',
+ 'images/11.jpg',
+ 'images/12.jpg',
+ 'images/16.jpg',
+ 'images/14.jpg',
+ 'images/17.jpg',
 ];
 
-// Step 3: Set the time interval in milliseconds.
-const interval = 3000; // 3 seconds
+//Set the time interval in milliseconds.
+const interval = 3000;
 
 // Step 5: Function to change the image source.
 function changeImage() {
-    const image = document.getElementsByName('slide')[0];
-    image.src = images[currentImageIndex];
-    currentImageIndex = (currentImageIndex + 1) % images.length;
+ const image = document.getElementsByName('slide')[0];
+ image.src = images[currentImageIndex];
+ currentImageIndex = (currentImageIndex + 1) % images.length;
 }
 
 // Step 6: Run the function every x seconds.
@@ -137,6 +139,8 @@ setInterval(changeImage, interval);
 // Step 7: Run the function when the page loads.
 window.addEventListener('load', changeImage);  
 
-  </script>
+</script>
+<!--JAVASCRIPT(end)-->
+
 </body>
 </html>
