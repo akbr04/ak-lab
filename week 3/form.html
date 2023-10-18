@@ -34,20 +34,19 @@
     <button type="button" id="submitBtn">Submit</button>
 </form>
 <script>
-// Get references to form elements
 const form = document.getElementById("form");
 const usernameInput = document.getElementById("username");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const confirmPasswordInput = document.getElementById("confirmPassword");
 
-// Get references to error message elements
+
 const usernameError = document.getElementById("usernameError");
 const emailError = document.getElementById("emailError");
 const passwordError = document.getElementById("passwordError");
 const confirmPasswordError = document.getElementById("confirmPasswordError");
 
-// Function to validate the username input
+/
 function validateUsername() {
     const usernameValue = usernameInput.value.trim();
 
@@ -60,7 +59,7 @@ function validateUsername() {
     }
 }
 
-// Function to validate the email input
+
 function validateEmail() {
     const emailValue = emailInput.value.trim();
     const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -77,7 +76,7 @@ function validateEmail() {
     }
 }
 
-// Function to validate the password input
+
 function validatePassword() {
     const passwordValue = passwordInput.value;
 
@@ -93,7 +92,6 @@ function validatePassword() {
     }
 }
 
-// Function to validate the confirm password input
 function validateConfirmPassword() {
     const confirmPasswordValue = confirmPasswordInput.value;
     const passwordValue = passwordInput.value;
@@ -110,26 +108,22 @@ function validateConfirmPassword() {
     }
 }
 
-// Function to show error message and apply error styling
 function showError(input, error, message) {
     error.textContent = message;
     input.classList.add("error-border");
 }
 
-// Function to clear error message and apply success styling
 function clearError(input, error) {
     error.textContent = "";
     input.classList.remove("error-border");
     input.classList.add("success-border");
 }
 
-// Add real-time validation on blur events for input fields
 usernameInput.addEventListener("blur", validateUsername);
 emailInput.addEventListener("blur", validateEmail);
 passwordInput.addEventListener("blur", validatePassword);
 confirmPasswordInput.addEventListener("blur", validateConfirmPassword);
 
-// Add event listener for the form submission
 const submitButton = document.getElementById("submitBtn");
 submitButton.addEventListener("click", function () {
     const isUsernameValid = validateUsername();
