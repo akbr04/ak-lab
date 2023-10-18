@@ -9,14 +9,14 @@
 
     <div class="input-control">
         <label for="username">Username</label>
-        <input type="text" id="username" name="Username">
-        <div class="error" id="usernameError"></div>
+        <input type="text" id="Username" name="Username">
+        <div class="error" id="Usernameerror"></div>
     </div>
 
     <div class="input-control">
         <label for="email">Email</label>
-        <input type="email" id="email" name="Email">
-        <div class="error" id="emailError"></div>
+        <input type="email" id="Email" name="Email">
+        <div class="error" id="Emailerror"></div>
     </div>
 
     <div class="input-control">
@@ -27,10 +27,86 @@
 
     <div class="input-control">
         <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="Confirmpassword">
-        <div class="error" id="confirmPasswordError"></div>
+        <input type="password" id="Confirmpassword name="Confirmpassword">
+        <div class="error" id="ConfirmpasswordError"></div>
     </div>
 
     <button type="button" id="submitBtn">Submit</button>
 </form>
+<script>
+   const form = document.getElementById("form");
+
+// Function to validate an input field and provide visual feedback
+function validateInput(input, error, regex) {
+    const value = input.value.trim();
+    if (value === "") {
+        error.textContent = `${input.name} is required`;
+        input.classList.add("error-border");
+        input.classList.remove("success-border");
+        return false;
+    } else if (regex && !regex.test(value)) {
+        error.textContent = `Invalid ${input.name}`;
+        input.classList.add("error-border");
+        input.classList.remove("success-border");
+        return false;
+    } else {
+        error.textContent = "";
+        input.classList.remove("error-border");
+        input.classList.add("success-border");
+        return true;
+    }
+}
+
+// Validation on input fields when they lose focus
+document.querySelectorAll(".input-control input").forEach(input => {
+    const error = input.nextElementSibling;
+    input.addEventListener("blur", () => {
+        let regex;
+        if (input.name === "email") {
+            regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        } else if (input.name === "password") {
+            regex = /.{8,}/;
+        }
+        validateInput(input, error, regex);
+    });
+});
+
+// Form submission
+document.getElementById("submitBtn").addEventListener("click", function () {
+    let valid = true;
+
+    document.querySelectorAll(".input-control input").forEach(input => {
+        const error = input.nextElementSibling;
+        let regex;
+        if (input.name === "email") {
+            regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        } else if (input.name === "password") {
+            regex = /.{8,}/;
+        }
+        if (!validateInput(input, error, regex)) {
+            valid = false;
+        }
+    });
+
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const confirmPasswordError = document.getElementById("confirmPasswordError");
+ 
+    if (password.value !== confirmPassword.value) {
+        valid = false;
+        confirmPasswordError.textContent = "Passwords do not match";
+        confirmPassword.classList.add("error-border");
+        confirmPassword.classList.remove("success-border");
+    } else {
+        confirmPasswordError.textContent = "";
+        confirmPassword.classList.remove("error-border");
+        confirmPassword.classList.add("success-border");
+    }
+
+    if (valid) {
+        // Perform further actions when the form is valid
+        alert("Form submitted successfully!");
+    }
+});
+</script>
   </body>
