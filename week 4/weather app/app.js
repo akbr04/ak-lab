@@ -25,7 +25,7 @@ getWeatherButton.addEventListener('click', () => {
       const temperature = data.main.temp;
       const windSpeed = data.wind.speed;
 
-      const weatherMessage = `Weather: ${weatherDescription}<br>Temperature: ${temperature}°C<br>Wind Speed: ${windSpeed} m/s`;
+      const weatherMessage = `<p>Weather: ${weatherDescription}<br>Temperature: ${temperature}°C<br>Wind Speed: ${windSpeed} m/s<p>`;
 
       weatherInfo.innerHTML = weatherMessage;
     })
