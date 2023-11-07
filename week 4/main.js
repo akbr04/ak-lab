@@ -1,14 +1,17 @@
+
 var cityContainer = document.getElementById("city-info");
 var btn = document.getElementById("btn");
 btn.addEventListener("click", function(){
 var ourRequest = new XMLHttpRequest();
-ourRequest.open('GET','https://akbr04.github.io/ak-lab/week%204/cities1.json');
+ourRequest.open('GET', 'https://akbr04.github.io/ak-lab/week%204/cities1.json');
 ourRequest.onload = function() {
-    var ourData = ourRequest.responseText;
-    console.log(ourData[0]);
-    
+var ourData = JSON.parse(ourRequest.responseText);
+renderHTML(ourData);
+btn.classList.add("hide-me");
 };
-ourRequest.send();});
+ourRequest.send();
+});
+
 function renderHTML(data){
     var htmlString = "";
     for (i=0; i<data.length; i++){
