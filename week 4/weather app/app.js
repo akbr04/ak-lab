@@ -1,4 +1,3 @@
-const apiKey = 'cfd2128ebb9f5b38b56d4a612a0f55c9';
 const cityInput = document.getElementById('cityInput');
 const getWeatherButton = document.getElementById('btn');
 const weatherInfo = document.getElementById('weather-info');
@@ -11,6 +10,7 @@ getWeatherButton.addEventListener('click', () => {
     return;
   }
 
+  const apiKey = 'cfd2128ebb9f5b38b56d4a612a0f55c9';
   const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
   fetch(apiUrl)
@@ -25,9 +25,8 @@ getWeatherButton.addEventListener('click', () => {
       const temperature = data.main.temp;
       const windSpeed = data.wind.speed;
 
-      const weatherMessage = `<p>Weather: ${weatherDescription}<br>Temperature: ${temperature}°C<br>Wind Speed: ${windSpeed} m/s<p>`;
-
-      weatherInfo.innerHTML = weatherMessage;
+      const weatherReply = `<p>The weather in ${city} is ${weatherDescription}.<br>The temperature is ${temperature}°C<br>with a wind speed of ${windSpeed} m/s</p>`;
+      weatherInfo.innerHTML += weatherReply + '<hr style= "width: 400px;">';
     })
     .catch((error) => {
       if (error instanceof Error) {
