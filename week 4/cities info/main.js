@@ -3,7 +3,7 @@ var btn = document.getElementById("btn");
 btn.addEventListener("click", function(){
 
     var ourRequest = new XMLHttpRequest();
-    ourRequest.open('GET', 'https://akbr04.github.io/ak-lab/week%204/cities1.json');
+    ourRequest.open('GET', 'https://akbr04.github.io/ak-lab/week%204/cities%20info/cities1.json');
     ourRequest.onload = function() {
         var ourData = JSON.parse(ourRequest.responseText);
         renderHTML(ourData);
@@ -17,7 +17,7 @@ function renderHTML(data){
     htmlString += "<p>" + data[i].name + " is a city in " + data[i].country + 
     ",</br> Where you can enjoy indoor places like: " ;
     for (ii = 0; ii < data[i].places.indoor.length; ii++) {
-    // Loop through the indoor places of the current city.
+    // Loop through the indoor places of the current city.  
     if (ii == 0) {
     htmlString += data[i].places.indoor[ii];
     } else {
