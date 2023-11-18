@@ -29,7 +29,11 @@ data_b.connect( (error) => {
 
 app.get("/", (req, res) => {
   res.render("PROFILE"); 
-})
+});
+
+app.get("/REGISTER", (req, res) => {
+  res.render("REGISTER"); 
+});
 
 app.listen(5000, () => {
     console.log("Server started on Port 5000");
