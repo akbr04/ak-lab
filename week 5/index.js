@@ -28,10 +28,10 @@ data_b.connect( (error) => {
 })
 
 app.get("/", (req, res) => {
-  res.render("PROFILE"); 
+  res.render("INDEX"); 
 });
 
-app.get("/REGISTER", (req, res) => {
+app.get("/register", (req, res) => {
   res.render("REGISTER"); 
 });
 
