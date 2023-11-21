@@ -35,6 +35,10 @@ app.get("/register", (req, res) => {
   res.render("REGISTER"); 
 });
 
+app.get("/login", (req, res) => {
+  res.render("LOGIN"); 
+});
+
 app.listen(5000, () => {
     console.log("Server started on Port 5000");
 })  
