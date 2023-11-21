@@ -23,21 +23,12 @@ data_b.connect( (error) => {
       if(error) {
         console.log(error)
       } else {
-        console.log("MYSQL Connected...")
+        console.log("MYSQL Connected")
       }
 })
 
-app.get("/", (req, res) => {
-  res.render("INDEX"); 
-});
-
-app.get("/register", (req, res) => {
-  res.render("REGISTER"); 
-});
-
-app.get("/login", (req, res) => {
-  res.render("LOGIN"); 
-});
+app.use('/', require('./routes/pages'));
+app.use('/auth', require('./routes/auth'));
 
 app.listen(5000, () => {
     console.log("Server started on Port 5000");
