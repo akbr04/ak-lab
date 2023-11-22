@@ -6,8 +6,13 @@ const data_b = mysql.createConnection({
     host: process.env.host,
     user: process.env.user,
     password: process.env.password,
-    database: process.env.info   
+    database: process.env.info
 });
+
+const generateToken = (userId) => {
+    // Use a more secure secret key in production
+    return jwt.sign({ userId }, 'your_secret_key', { expiresIn: '1h' });
+};
 
 exports.register = (req, res) => {
     console.log(req.body);
@@ -19,11 +24,11 @@ exports.register = (req, res) => {
         }
         if (result.length > 0) {
             return res.render('register', {
-                message: "That email is already in use"
+                message: "That email is already in use."
             });
         } else if (password !== passwordConfirm) {
             return res.render('register', {
-                message: 'Passwords do not match'
+                message: 'Passwords do not match.'
             });
         }
         let hashedPassword = await bcrypt.hash(password, 8);
@@ -35,9 +40,56 @@ exports.register = (req, res) => {
             } else {
                 console.log(results);
                 return res.render('register', {
-                    message: 'User Registered'
+                    message: 'User Registered.'
                 });
             }
         });
     });
 };
+
+exports.login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        if( !email || !password ){
+            return res.status(400).render('login', {
+                message: 'Please provide an email and password.'
+            })
+        }
+        
+        data_b.query('SELECT email FROM users WHERE email = ?', [email], async (error, result) => {
+            console.log(results);
+            if(!results || !(await bcrypt.compare(password, result[0].password))){
+              res.status(401).render('login', {
+                message: 'Email or Password is incorrect'
+              })  
+            } else {
+                const id = results[0].id;
+                const token = jwt.sign({id}, process.env.JWT_SECRET,{
+                    expiresIn: process.env.JWT_EXPIRES_in
+                });
+                console.log("The token is:" + token);
+                const cookieOptions = {
+                  expires: new Date(
+                    Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 1000
+                  ),
+                  httpOnly: true
+                }
+                res.cookie('jwt', token, cookieOptions);
+                res.status(200).redirect("/profile");
+            }
+        })
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+exports.logout = async (req, res) => {
+    res.cookie('jwt', 'logout', { 
+        expires: new Date(Date.now() + 2 * 1000), 
+        httpOnly: true
+    });
+
+    res.status(200).redirect('/');
+};
+
