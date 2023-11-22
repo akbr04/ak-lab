@@ -15,9 +15,11 @@ const data_b = mysql.createConnection({
 });
 
 const publicDirectory = path.join(__dirname, './public');
-app.use(express.static(publicDirectory));
 
+app.use(express.static(publicDirectory));
 app.set('view engine', 'hbs');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 
 data_b.connect( (error) => {
       if(error) {
