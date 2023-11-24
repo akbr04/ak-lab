@@ -49,43 +49,73 @@ exports.register = (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const { email, password } = req.body;
-        
-        if( !email || !password ){
-            return res.status(400).render('login', {
-                message: 'Please provide an email and password.'
-            })
-        }
-        
-        data_b.query('SELECT email FROM users WHERE email = ?', [email], async (error, result) => {
-            console.log(results);
-            if(!results || !(await bcrypt.compare(password, result[0].password))){
-              res.status(401).render('login', {
-                message: 'Email or Password is incorrect'
-              })  
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res.status(400).render("login", {
+          message: "Please Enter Your Email and Password",
+        });
+      }
+  
+      data_b.query(
+        "select * from users where email=?",
+        [email],
+        async (error, result) => {
+          console.log(result);
+          if (result.length <= 0) {
+            return res.status(401).render("LOGIN", {
+              message: "Please Enter Your Email and Password",
+            });
+          } else {
+            if ( !result || !(await bcrypt.compare(password, result[0].password))) {
+              return res.status(401).render("LOGIN", {
+                message: "Please Enter Your Email and Password",
+              });
             } else {
-                const id = results[0].id;
-                const token = jwt.sign({id}, process.env.JWT_SECRET,{
-                    expiresIn: process.env.JWT_EXPIRES_in
-                });
-                console.log("The token is:" + token);
-                const cookieOptions = {
-                  expires: new Date(
-                    Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 1000
-                  ),
-                  httpOnly: true
-                }
-                res.cookie('jwt', token, cookieOptions);
-                res.status(200).redirect("/profile");
+              const id = result[0].id;
+              const token = jwt.sign({ id: id }, process.env.JWT_SECRET, {
+                expiresIn: process.env.JWT_EXPIRES_IN,
+              });
+              console.log("The Token is " + token);
+              const cookieOptions = {
+                expires: new Date(
+                  Date.now() +
+                    process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                ),
+                httpOnly: true,
+              };
+              res.cookie("authToken", token, cookieOptions);
+              res.status(200).redirect("/profile");
             }
-        })
+          }
+        }
+      );
     } catch (error) {
-        console.log(error);
+      console.log(error);
+    }
+  };
+
+exports.isLoggedIn = async (req, res, next) => {
+    if (req.cookies.authToken) {
+        try {
+            const decoded = jwt.verify(req.cookies.authToken, process.env.JWT_SECRET);
+            data_b.query("SELECT * FROM users WHERE id=?", [decoded.id], (err, results) => {
+                if (!results) {
+                    return next();
+                }
+                req.user = results[0];
+                return next();
+            });
+        } catch (error) {
+            console.log(error);
+            return next();
+        }
+    } else {
+        next();
     }
 };
 
 exports.logout = async (req, res) => {
-    res.cookie('jwt', 'logout', { 
+    res.cookie('authToken', 'logout', { 
         expires: new Date(Date.now() + 2 * 1000), 
         httpOnly: true
     });
