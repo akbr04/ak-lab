@@ -51,8 +51,8 @@ exports.login = async (req, res) => {
     try {
       const { email, password } = req.body;
       if (!email || !password) {
-        return res.status(400).render("login", {
-          message: "Please Enter Your Email and Password",
+        return res.status(400).render('login', {
+          message: "Please enter your Email and Password",
         });
       }
   
@@ -62,13 +62,13 @@ exports.login = async (req, res) => {
         async (error, result) => {
           console.log(result);
           if (result.length <= 0) {
-            return res.status(401).render("LOGIN", {
-              message: "Please Enter Your Email and Password",
+            return res.status(401).render('login', {
+              message: "Please enter a valid Email and Password",
             });
           } else {
             if ( !result || !(await bcrypt.compare(password, result[0].password))) {
-              return res.status(401).render("LOGIN", {
-                message: "Please Enter Your Email and Password",
+              return res.status(401).render('login', {
+                message: "Incorrect Email or Password",
               });
             } else {
               const id = result[0].id;
